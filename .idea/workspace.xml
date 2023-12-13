@@ -18,7 +18,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/frontend" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/backend" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/com/example/GeoByte/model/Location.java" root0="SKIP_INSPECTION" />
@@ -53,9 +53,9 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.GeoByteApplication.executor": "Run",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "<unknown>",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Ochiabuto Jideofor/eclipse-workspace/GeoByte",
+    "last_opened_file_path": "C:/Users/Ochiabuto Jideofor/eclipse-workspace/GeoByte/backend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -113,7 +113,7 @@
       <updated>1702124567899</updated>
       <workItem from="1702124572187" duration="110000" />
       <workItem from="1702126574222" duration="159000" />
-      <workItem from="1702126821908" duration="23146000" />
+      <workItem from="1702126821908" duration="24252000" />
     </task>
     <task id="LOCAL-00001" summary="Initialization">
       <option name="closed" value="true" />

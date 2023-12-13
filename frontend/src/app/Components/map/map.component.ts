@@ -11,7 +11,7 @@ export class MapComponent {
   apiLoaded: Observable<boolean>;
 
   options: google.maps.MapOptions = {
-    center: {lat: 9.072264, lng: 7.491302},
+    center: {lat:9.076902275965697, lng: 7.477035798153819},
     zoom: 12
   };
 

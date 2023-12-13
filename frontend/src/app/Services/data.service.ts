@@ -14,4 +14,12 @@ export class DataService {
   auth(data: any): Observable<any>{
     return this.http.post(this.APIURL, data, {responseType:'text'});
   }
+
+  getAll(): Observable<any>{
+    return this.http.get<any>(this.APIURL);
+  }
+
+  get(id: any): Observable<any> {
+    return this.http.get(`${this.APIURL}/${id}`);
+  }
 }

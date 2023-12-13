@@ -14,11 +14,11 @@ import com.example.GeoByte.model.User;
 import com.example.GeoByte.repo.UserRepo;
 
 @Service
-public class UserDetail implements UserDetailsService{
+public class UserService implements UserDetailsService{
 	
 	private UserRepo userRepo;
 	
-	public UserDetail (UserRepo userRepo) {
+	public UserService (UserRepo userRepo) {
 		this.userRepo  = userRepo;
 	}
 

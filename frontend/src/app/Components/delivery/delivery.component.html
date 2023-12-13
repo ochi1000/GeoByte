@@ -1,5 +1,55 @@
+<h3>Deliveries</h3>
+
+
+  <div class="form-group">
+    <div class="form-check" 
+       *ngFor="let location of locations; let i = index">
+        <ul class="list-group">
+          <label class="form-check-label">
+            <li class="list-group-item">
+              <input type="checkbox" class="form-check-input"
+              [(ngModel)]="selectedLocations[i]" [ngModelOptions]="{standalone: true}"/>{{location.name}}</li>
+          </label>
+        </ul>
+    </div>
+  </div>
+  <div *ngFor="let detail of selectedLocationsDetails">
+    <p>{{detail.name}}</p>
+  </div>
+{{selectedLocations | json }}
+
+<hr>
+
+<h5>Origin</h5>
+<select class="form-select" [formControl] = "originControl" >
+  <option value="{{detail.id}}" *ngFor="let detail of selectedLocationsDetails">{{detail.name}}</option>
+</select>
+
+<h5>Destination</h5>
+<select class="form-select" [formControl] = "destControl" >
+  <option *ngFor="let detail of selectedLocationsDetails" value="{{detail.id}}">{{detail.name}}</option>
+</select>
+
+  <!-- <div *ngIf="submitted">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8">
+        <p>Name: {{member.name}}</p>
+        <p>Membership Date: {{member.membershipDate | date:'dd/MM/yyyy'}}</p>
+        <p>Selected Exercises: {{member.exercises}}</p>
+      </div>
+    </div>
+  </div>   -->
+
+
+
+
+
+
 <google-map height="100vh" width="100vw" [options]="options">
     @if (directionsResults$ | async; as directionsResults) {
-      <map-directions-renderer [directions]="directionsResults" />
+      @if (destLocation) {
+        <map-directions-renderer [directions]="directionsResults" />
+      }
     }
   </google-map>
+  <!-- <div (load)="getAllLocations()"></div> -->
