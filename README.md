@@ -28,5 +28,6 @@ Run Project
 ```bash
   ng serve
 ```
+Ensure you are connected to the internet for the Google Maps Integration.
    
     
