@@ -1,55 +1,152 @@
-<h3>Deliveries</h3>
-
-
-  <div class="form-group">
-    <div class="form-check" 
-       *ngFor="let location of locations; let i = index">
-        <ul class="list-group">
-          <label class="form-check-label">
-            <li class="list-group-item">
-              <input type="checkbox" class="form-check-input"
-              [(ngModel)]="selectedLocations[i]" [ngModelOptions]="{standalone: true}"/>{{location.name}}</li>
-          </label>
-        </ul>
+<div class="container px-4">
+  <div class="row gx-5">
+    <div class="col-9 ">
+       <h3 class="my-2">Delivery Locations</h3>
+       
+       <button class="btn btn-primary my-2" data-bs-toggle="modal" data-bs-target="#AddLocation">Add Location</button>
+  
+         <table class="table">
+           <thead>
+             <tr>
+               <th scope="col">Location</th>
+               <th scope="col" colspan="2">Action</th>
+             </tr>
+           </thead>
+           <tbody>
+             <tr  *ngFor="let location of locations;" >
+               <td>{{location.name}}</td>
+               <td>
+                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditLocation" (click)="modelInView(location)">Edit</button>
+               </td>
+               <td>
+                 <button type="button" class="btn btn-danger" (click)="deleteLocation(location.id)">Delete</button>
+               </td>
+             </tr>
+           </tbody>
+         </table>
     </div>
   </div>
-  <div *ngFor="let detail of selectedLocationsDetails">
-    <p>{{detail.name}}</p>
+  
+  <div class="row mt-4">
+    <div class="col-9">
+      
+      <h5>Origin</h5>
+      <select class="form-select" [formControl] = "originControl" >
+        <option value="{{location.id}}" *ngFor="let location of locations;">{{location.name}}</option>
+      </select>
+      
+      <h5 class="mt-3">Destination</h5>
+      <select class="form-select" [formControl] = "destControl" >
+        <option *ngFor="let detail of selectedLocationsDetails" value="{{detail.id}}">{{detail.name}}</option>
+      </select>
+      
+      <h5 class="mt-3">Intermediate Locations</h5>
+      <form #deliveryForm="ngForm">
+        <div *ngIf="destLocation">
+          <div *ngFor="let availIntermediate of availableIntermediateLocations; let i = index;" >
+            <label class="form-check-label" *ngIf="i == 0">
+              <input type="checkbox" class="form-check-input" 
+              [(ngModel)]="ssssss[i]" [ngModelOptions]="{standalone: true}"/>
+              {{availIntermediate.name}}
+            </label>
+            <label class="form-check-label" *ngIf="i > 0">              
+              <input type="checkbox" class="form-check-input"
+              [(ngModel)]="ssssss[i+1]" [ngModelOptions]="{standalone: true}"/>
+              {{availIntermediate.name}}
+            </label>
+          </div>
+        </div>
+      </form>
+
+      <button class="btn btn-primary mt-3" (click)="getDeliveryDetails()">Get Delivery Details</button>
+        
+    </div>
+
+    
   </div>
-{{selectedLocations | json }}
-
-<hr>
-
-<h5>Origin</h5>
-<select class="form-select" [formControl] = "originControl" >
-  <option value="{{detail.id}}" *ngFor="let detail of selectedLocationsDetails">{{detail.name}}</option>
-</select>
-
-<h5>Destination</h5>
-<select class="form-select" [formControl] = "destControl" >
-  <option *ngFor="let detail of selectedLocationsDetails" value="{{detail.id}}">{{detail.name}}</option>
-</select>
-
-  <!-- <div *ngIf="submitted">
-    <div class="row">
-      <div class="col-xs-12 col-sm-10 col-md-8">
-        <p>Name: {{member.name}}</p>
-        <p>Membership Date: {{member.membershipDate | date:'dd/MM/yyyy'}}</p>
-        <p>Selected Exercises: {{member.exercises}}</p>
+  
+<div *ngIf="showMap">
+  <div class="container">
+    <h4>Delivery Details</h4>
+    <p class="mt-3">Origin: {{originLocation.name}}</p>
+    <p class="mt-3">Destination: {{destLocation.name}}</p>
+    <div class="mt-3">Intermediates: 
+      <div *ngFor="let item of selectedIntermediatesLocations">
+        <span>{{item.name}}</span> <br>
       </div>
     </div>
-  </div>   -->
-
-
-
-
-
-
-<google-map height="100vh" width="100vw" [options]="options">
-    @if (directionsResults$ | async; as directionsResults) {
-      @if (destLocation) {
-        <map-directions-renderer [directions]="directionsResults" />
-      }
+    @if (totalCost) {
+    <p class="mt-2">Distance : {{distance}}km</p>
+    <p >Total Cost : ${{totalCost}}</p>
     }
-  </google-map>
-  <!-- <div (load)="getAllLocations()"></div> -->
+  </div>
+  <div>
+    @if (directionsResults$ | async; as directionsResults) {
+    <google-map height="100vh" width="100vw" [options]="options">
+        <map-directions-renderer [directions]="directionsResults" />
+      </google-map>
+    }
+  </div>
+</div>
+
+<!--Update Modal -->
+<div class="modal fade" id="EditLocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Location</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Location/Address </span>
+          </div>
+          <input type="text" class="form-control" [(ngModel)]="locationInView.name">
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Cost </span>
+          </div>
+          <input type="text" class="form-control" [(ngModel)]="locationInView.cost">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="modifyLocation()">Update Location</button>      </div>
+    </div>
+  </div>
+</div>
+
+<!--Add New Modal -->
+<div class="modal fade" id="AddLocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Location</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Location/Address</span>
+          </div>
+          <input type="text" class="form-control" [(ngModel)]="location.name" required>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Clearing Cost</span>
+          </div>
+          <input type="number" class="form-control" [(ngModel)]="location.cost" required/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="addLocation()">Add Location</button>      </div>
+    </div>
+  </div>
+</div>

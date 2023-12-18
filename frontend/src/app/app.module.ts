@@ -8,12 +8,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeliveryComponent } from './Components/delivery/delivery.component';
 import { MapComponent } from './Components/map/map.component';
 import { GoogleMap, GoogleMapsModule } from '@angular/google-maps';
+import { AddLocationComponent } from './Components/add-location/add-location.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DeliveryComponent,
-    MapComponent
+    MapComponent,
+    AddLocationComponent
   ],
   imports: [
     BrowserModule,

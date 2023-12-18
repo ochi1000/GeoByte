@@ -4,11 +4,11 @@
       <form>
         <h1 class="h1 mb-3 fw-bold">Geobyte</h1>
         <div class="form-floating">
-          <input type="email" class="form-control" [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}" id="floatingInput" placeholder="name@example.com">
+          <input type="email" class="form-control" [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}" id="floatingInput" placeholder="name@example.com" required>
           <label for="floatingInput">Email address</label>
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}" id="floatingPassword" placeholder="Password">
+          <input type="password" class="form-control" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}" id="floatingPassword" placeholder="Password" required>
           <label for="floatingPassword">Password</label>
         </div>
     

@@ -20,4 +20,6 @@ public class Location {
     private String longitude;
 
     private String latitude;
+
+    private Number cost;
 }

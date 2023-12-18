@@ -10,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.GeoByte.dto.LoginDTO;
 import com.example.GeoByte.dto.SignUpDTO;
@@ -24,6 +21,7 @@ import com.example.GeoByte.repo.UserRepo;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "*")
 public class UserController {
 
 	@Autowired
@@ -45,16 +43,18 @@ public class UserController {
 		User userObj = new User();
 		userObj.setName(signUpDTO.getName());
 		userObj.setEmail(signUpDTO.getEmail());
-		
+
 		userObj.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
-		
+		if (roleRepo.findByName("admin").isEmpty()) {
+			return new ResponseEntity<>("Error occured", HttpStatus.BAD_REQUEST);
+		}
 		Role roles = roleRepo.findByName("admin").get();
-		userObj.setRoles(Collections.singleton(roles));	
-		
+
+		userObj.setRoles(Collections.singleton(roles));
+
 		userRepo.save(userObj);
-		
-		return new ResponseEntity<>("User is registered successfully", HttpStatus.CREATED);
-		
+		return new ResponseEntity<>(userObj, HttpStatus.CREATED);
+
 	}
 	
 	@PostMapping("/login")
@@ -63,7 +63,7 @@ public class UserController {
 		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
-		return new ResponseEntity<>("User login successful", HttpStatus.OK);
+		return new ResponseEntity<String>("User login successful", HttpStatus.OK);
 		
 	}
 	

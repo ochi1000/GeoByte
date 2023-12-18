@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { User } from '../../models/user';
 import { UserService } from '../../Services/user.service';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -17,16 +18,17 @@ export class UserComponent {
     password: ''
   };
 
-  constructor(private userService: UserService){ 
+  constructor(private userService: UserService, private router: Router){ 
    }
 
   registerUser(){
-    this.userService.auth(this.user).subscribe({
+    this.userService.post(this.user).subscribe({
       next: (data) =>{
-        console.log(data);
+        alert("Successful registeration");
+        this.router.navigate(['/delivery']);
       },
       error: (error) =>{
-        console.log(error);
+        alert("Error occured please try again");
       }
     });
   }

@@ -11,7 +11,7 @@ export class DataService {
   constructor(@Inject(String) private APIURL: string, private http: HttpClient) { }
 
   // Post Method
-  auth(data: any): Observable<any>{
+  post(data: any): Observable<any>{
     return this.http.post(this.APIURL, data, {responseType:'text'});
   }
 
@@ -21,5 +21,13 @@ export class DataService {
 
   get(id: any): Observable<any> {
     return this.http.get(`${this.APIURL}/${id}`);
+  }
+
+  update(data: any): Observable<any> {
+    return this.http.put(`${this.APIURL}`, data);
+  }
+
+  delete(id: any): Observable<any> {
+    return this.http.delete(`${this.APIURL}/${id}`);
   }
 }
